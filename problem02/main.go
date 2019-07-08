@@ -1,28 +1,26 @@
 package main
 
-import "bufio"
+import "daily-coding-problem/utilities"
 import "fmt"
-import "os"
-import "strconv"
+import "log"
 import "strings"
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-
 	fmt.Println("Enter a list of numbers separated by commas")
 	fmt.Println("Example: 1,23,50,12")
 
 	fmt.Print("-> ")
 
-	scanner.Scan()
-	input := scanner.Text()
-	trimmedInput := strings.TrimSpace(input)
-	numbersStrings := strings.Split(trimmedInput, ",")
+	input := utilities.ReadConsoleInput()
 
-	numbers := make([]int, len(numbersStrings))
+	sanitizedInput := utilities.SanitizeInput(input)
 
-	for index, number := range numbersStrings {
-		numbers[index], _ = strconv.Atoi(number)
+	splittedInput := strings.Split(sanitizedInput, ",")
+
+	numbers, err := utilities.ListOfNumbersToInt(splittedInput)
+
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 
 	numbersProducts := make([]int, len(numbers))

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bufio"
+	"daily-coding-problem/utilities"
 	"fmt"
-	"os"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -13,35 +13,35 @@ import (
 // For example, given [10, 15, 3, 7] and k of 17 return true since 10 + 7 is 17
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Enter a list of numbers separated by commas")
 	fmt.Println("Example: 1,59,20,234,20\n")
 
 	fmt.Print("-> ")
 
-	scanner.Scan()
-	input := scanner.Text()
-	inputTrimmed := strings.TrimSpace(input)
+	input := utilities.ReadConsoleInput()
 
-	numbersStrings := strings.Split(inputTrimmed, ",")
-	totalNumbers := len(numbersStrings)
+	sanitizedInput := utilities.SanitizeInput(input)
 
-	numbers := make([]int, totalNumbers)
+	trimmedInput := strings.Split(sanitizedInput, ",")
 
-	for index, number := range numbersStrings {
-		numbers[index], _ = strconv.Atoi(number)
+	numbers, err := utilities.ListOfNumbersToInt(trimmedInput)
+
+	if err != nil {
+		log.Fatal(err.Error())
 	}
+
+	totalNumbers := len(numbers)
 
 	fmt.Println()
 	fmt.Println("Enter a number")
 
 	fmt.Print("-> ")
 
-	scanner.Scan()
-	input = scanner.Text()
-	inputTrimmed = strings.TrimSpace(input)
+	input = utilities.ReadConsoleInput()
 
-	number, _ := strconv.Atoi(inputTrimmed)
+	sanitizedInput = utilities.SanitizeInput(input)
+
+	number, _ := strconv.Atoi(sanitizedInput)
 
 	flag := false
 
